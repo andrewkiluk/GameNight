@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 20150302012400) do
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.string   "name"
-    t.string   "hashed_password"
+    t.binary   "hashed_password"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.integer  "library_id"

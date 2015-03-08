@@ -12,7 +12,7 @@ class GamesController < ApplicationController
   def index
     @games = Game.where("")
 
-    current_user.id
+    @current_user.id
   end
 
   # GET /games/1
