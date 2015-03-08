@@ -5,4 +5,9 @@ class Event < ActiveRecord::Base
   has_many :games, through: :game_events
   has_many :game_event_votes
   has_many :users, through: :invitations
+
+  attr_accessor :description
+  attr_accessor :name
+  attr_accessor :place
+  attr_accessor :start_time
 end

@@ -1,15 +1,39 @@
 Rails.application.routes.draw do
-  resources :events
 
-  resources :libraries
+  # welcome page
+  root   'accounts#welcome'
 
-  resources :games
+  # account routes
+  get    'login'            => 'accounts#login_form',  as: :login_form
+  post   'login'            => 'accounts#login',       as: :login_action
+  get    'logout'           => 'accounts#logout',      as: :logout
+  get    'signup'           => 'accounts#signup_form', as: :signup_form
+  post   'signup'           => 'accounts#signup',      as: :signup_action
+  get    'account'          => 'accounts#show',        as: :account_show
+
+  # friends routes
+  get    'friends'          => 'friends#index',        as: :friends
+  get    'friends/search'   => 'friends#search',       as: :friends_search
+  get    'friends/:id'      => 'friends#show',         as: :friends_show
+  post   'friends/:id'      => 'friends#add',          as: :friends_add
+  delete 'friends/:id'      => 'friends#delete',       as: :friends_delete
+
+  # games routes
+  get    'games'            => 'games#index',          as: :games
+  get    'games/search'     => 'games#search',         as: :games_search
+  get    'games/:id'        => 'games#show',           as: :games_show
+  post   'games/:id'        => 'games#add',            as: :games_add
+  delete 'games/:id'        => 'games#delete',         as: :games_delete
+
+  # events routes
+  get    'events'           => 'events#index',         as: :events
+  post   'events'           => 'events#create',        as: :events_create
+  get    'events/:id'       => 'events#show',          as: :events_show
+  delete 'events/:id'       => 'events#delete',        as: :events_delete
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

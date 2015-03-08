@@ -1,0 +1,15 @@
+<% if username %>
+  <ul class="nav navbar-nav">
+    <li><p class="navbar-text"><%= username %></p></li>
+    <li id="navbar-logout"><a id="logout" href="/logout">Log out</a></li>
+  </ul>
+<% else %>
+  <form id="navbar-login" class="form-inline" method="post" action="/login">
+    <div class="form-group">
+      <input type="text" class="form-control" name="username" placeholder="Username">
+      <input type="password" class="form-control" name="password" placeholder="Password">
+    </div>
+    <button type="submit" method="post" class="btn btn-default">Login</button>
+    <a href="/register" class="btn btn-default">Sign Up</a>
+  </form>
+<% end %>

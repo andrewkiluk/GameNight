@@ -1,0 +1,25 @@
+form, input {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+label, input {
+    display: inline-block;
+    vertical-align: baseline;
+    width: 125px;
+}
+
+label{
+    text-align: right;
+    margin-right: 5px;
+}
+input {
+  margin: 10px 0px;
+}
+.center-text {
+  text-align: center;
+}
+button[type="submit"] {
+  margin-top: 10px;
+}

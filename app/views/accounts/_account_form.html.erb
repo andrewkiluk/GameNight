@@ -1,0 +1,17 @@
+<form id="signup_form" method="POST" action="/signup">
+  <h1>Sign Up</h1>
+  <br/>
+  <%= label_tag(:username, "Email Address: ") %>
+  <%= text_field_tag(:username) %>
+  <br/>
+  <%= label_tag(:name, "Name: ") %>
+  <%= password_field_tag(:name) %>
+  <br/>
+  <%= label_tag(:password, "Password: ") %>
+  <%= text_field_tag(:password) %>
+  <br/>
+  <%= label_tag(:password_confirm, "Confirm Password: ") %>
+  <%= password_field_tag(:password_confirm) %>
+  <br/>
+  <button class="btn" type="submit">Sign Up</button>
+</form>

@@ -91,8 +91,10 @@ ActiveRecord::Schema.define(version: 20150302012400) do
     t.datetime "updated_at",      null: false
     t.integer  "user_id"
     t.integer  "related_user_id"
+    t.integer  "inverse_id"
   end
 
+  add_index "relations", ["inverse_id"], name: "index_relations_on_inverse_id"
   add_index "relations", ["related_user_id"], name: "index_relations_on_related_user_id"
   add_index "relations", ["user_id"], name: "index_relations_on_user_id"
 
