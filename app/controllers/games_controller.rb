@@ -10,9 +10,11 @@ class GamesController < ApplicationController
   # GET /games
   # GET /games.json
   def index
-    @games = Game.where("")
+    library_id = @current_user.library_id
+    @games = Game
+      .joins(:libraries)
+      .where("library_id = ?", library_id)
 
-    @current_user.id
   end
 
   # GET /games/1

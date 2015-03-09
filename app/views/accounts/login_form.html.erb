@@ -7,7 +7,7 @@
     <br/>
     <%= label_tag(:password, "Password: ") %>
     <%= password_field_tag(:password) %>
-    <br/><br/>
+    <br/>
     <button class="btn" id="login_button" type="submit">Log In</button>
     <%= hidden_field_tag :redirect_path, flash[:redirect_path]%>
     <%= token_tag form_authenticity_token %>

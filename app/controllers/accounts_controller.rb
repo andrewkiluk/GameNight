@@ -5,11 +5,9 @@ class AccountsController < ApplicationController
   skip_before_action :require_login, only: [:welcome, :login_form, :login, :signup, :signup_form]
 
   def welcome
-    # just render
   end
 
   def login_form
-    # just render
   end
 
   def login
@@ -41,26 +39,25 @@ class AccountsController < ApplicationController
     # passwords must match
     if hashed_password != hashed_password_confirm
       flash[:error] = "Passwords do not match."
-      signup_form
+      signup_form and return
     end
 
     # email must not be used
     same_email_user = User.where(email: email).take
     if same_email_user
       flash[:error] = "A user with this email address is already signed up."
-      redirect_to :signup_form
-      return
+      redirect_to :signup_form and return
     end
 
     # attempt user creation
     user = User.create(name: name, email: email, hashed_password: hashed_password)
     if user
-      flash[:notice] = "Sign up successful!"
+      flash[:success] = "Sign up successful!"
+      login
     else
       flash[:error] = "Error in signup."
+      redirect_to :signup_form
     end
-
-     redirect_to :root
   end
 
 

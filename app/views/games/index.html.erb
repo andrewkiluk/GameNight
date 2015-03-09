@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Games</h1>
+<h1>Your Game Library</h1>
 
 <table>
   <thead>
@@ -17,7 +17,6 @@
         <td><%= game.title %></td>
         <td><%= game.last_sync %></td>
         <td><%= link_to 'Show', game %></td>
-        <td><%= link_to 'Edit', edit_game_path(game) %></td>
         <td><%= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -25,5 +24,3 @@
 </table>
 
 <br>
-
-<%= link_to 'New Game', new_game_path %>

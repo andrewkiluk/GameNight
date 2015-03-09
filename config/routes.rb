@@ -27,7 +27,7 @@ Rails.application.routes.draw do
 
   # events routes
   get    'events'           => 'events#index',         as: :events
-  post   'events'           => 'events#create',        as: :events_create
+  post   'events'           => 'events#new',           as: :events_new
   get    'events/:id'       => 'events#show',          as: :events_show
   delete 'events/:id'       => 'events#delete',        as: :events_delete
 

@@ -51,7 +51,27 @@
 
     <!-- Page Content -->
     <div class="container">
+
+        <!-- Flash messages -->
+        <div class="row">
+        <% flash.each do |key, value| %>
+            <% if key == 'success' %>
+                <div class="alert alert-success alert-dismissible" role="alert">
+                <%= value %>
+                <button class="close" data-dismiss="alert">&times;</button>
+                </div>
+            <% elsif key == 'error' %>
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                <%= value %>
+                <button class="close" data-dismiss="alert">&times;</button>
+                </div>
+            <% end %>
+        <% end %>
+        </div>
+
+        <!-- Main content -->
         <%= yield %>
+
     </div>
     <!-- /.container -->
 

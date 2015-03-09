@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150302012400) do
+ActiveRecord::Schema.define(version: 20150309032253) do
 
   create_table "events", force: :cascade do |t|
     t.datetime "start_time"
@@ -57,7 +57,10 @@ ActiveRecord::Schema.define(version: 20150302012400) do
     t.string   "bgg_thumbnail"
     t.integer  "bgg_playingTime"
     t.integer  "bgg_rank"
+    t.integer  "library_game_id"
   end
+
+  add_index "games", ["library_game_id"], name: "index_games_on_library_game_id"
 
   create_table "invitations", force: :cascade do |t|
     t.integer  "status"
