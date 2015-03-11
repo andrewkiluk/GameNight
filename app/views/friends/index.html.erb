@@ -1,0 +1,16 @@
+<h1>Friends</h1>
+<br/>
+<div class="row">
+<% @friends.each do |friend| %>
+  <% pawn_color = "%06x" % (rand * 0xffffff)%>
+  <div class="col-md-3 center-text">
+    <a href="/friends/<%= friend.id %>">
+      <div class="well friend-well" >
+        <%= image_tag '/images/pawn-invert.png', size: "30x50", class: 'pawn-mask', style: "background: #" + pawn_color + ";" %>
+        <p><%= friend.name %></p>
+      </div>
+    </a>
+  </div>
+</div>
+
+<% end %>

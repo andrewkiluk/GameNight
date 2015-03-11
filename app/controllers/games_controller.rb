@@ -18,7 +18,7 @@ class GamesController < ApplicationController
   end
 
   # GET /games/1
-  # GET /games/1.json
+  # GET /games/1.]json
   def show
   end
 
