@@ -8,6 +8,7 @@ class FriendsController < ApplicationController
       .where("rel.related_user_id == ?", @current_user)
       .where("rel.status == ?", Status::ACCEPTED)
       .where("inv.status == ?", Status::ACCEPTED)
+      .order("users.name")
   end
 
 
