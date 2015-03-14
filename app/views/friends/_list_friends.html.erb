@@ -1,0 +1,27 @@
+<% if users.empty? %>
+  <div class="col-md-6 col-sm-12">
+    <% if page == :list %>
+      <p>
+        You have not yet added any friends.
+        <%= link_to 'Click here', :friends_search_form %>
+        to search for them.
+      </p>
+    <% elsif page == :search %>
+     <p>No users found!</p>
+    <% end %>
+  </div>
+<% else %>
+  <% users.each do |user| %>
+    <% pawn_color = "%06x" % (rand * 0xffffff)%>
+    <div class="col-md-3 col-sm-6 col-sm-12 center-text">
+      <a href="/friends/<%= user.id %>">
+        <div class="well friend-well" >
+          <%= image_tag 'pawn-invert.png', size: "28x50", class: 'pawn-mask', style: "background: #" + pawn_color + ";" %>
+          <p><%= user.name %></p>
+        </div>
+      </a>
+    </div>
+  <% end %>
+<% end %>
+
+

@@ -1,11 +1,12 @@
 module Status
-  
+
 # Generic
   NULL      = 0
   ACTIVE    = 0001
   INACTIVE  = 0002
   PENDING   = 0003
-  
+  EQUAL     = 0004
+
 # Requests
   ACCEPTED  = 1000
   MAYBE     = 1001

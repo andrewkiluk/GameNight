@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   # Require logins by default
   before_action :set_current_user
   before_action :require_login
+  before_action :check_requests
 
   private
 
@@ -23,4 +24,17 @@ class ApplicationController < ActionController::Base
     @current_user ||= session[:current_user_id] &&
       User.find_by(id: session[:current_user_id])
   end
+
+  def check_requests
+    if @current_user
+      @friend_requests = User
+      .joins("JOIN relations AS rel
+              ON rel.user_id = users.id")
+      .where("rel.related_user_id == ?", @current_user.id)
+      .where("rel.status == ?", Status::PENDING)
+      .order("users.name")
+      @event_invites = nil
+    end
+  end
+
 end

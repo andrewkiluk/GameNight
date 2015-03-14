@@ -1,0 +1,8 @@
+<h1>Search for your friends</h1>
+<br/>
+<div class="row">
+  <%= render partial: "friend_search" %>
+</div>
+<div class="row">
+  <%= render partial: "list_friends", locals: {users: @search_results, page: :search} %>
+</div>

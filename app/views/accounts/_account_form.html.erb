@@ -1,17 +1,17 @@
 <form id="signup_form" class="account_form" method="POST" action="/signup">
   <h1>Sign Up</h1>
   <br/>
-  <%= label_tag(:email, "Email Address: ") %>
-  <%= text_field_tag(:email) %>
+  <%= label_tag :email, "Email Address: " %>
+  <%= text_field_tag :email, nil, class: "account-input form-control" %>
   <br/>
-  <%= label_tag(:name, "Name: ") %>
-  <%= text_field_tag(:name) %>
+  <%= label_tag :name, "Name: " %>
+  <%= text_field_tag :name, nil, class: "account-input form-control" %>
   <br/>
-  <%= label_tag(:password, "Password: ") %>
-  <%= password_field_tag(:password) %>
+  <%= label_tag :password, "Password: " %>
+  <%= password_field_tag :password, nil, class: "account-input form-control" %>
   <br/>
-  <%= label_tag(:password_confirm, "Confirm Password: ") %>
-  <%= password_field_tag(:password_confirm) %>
+  <%= label_tag :password_confirm, "Confirm Password: " %>
+  <%= password_field_tag :password_confirm , nil, class: "account-input form-control" %>
   <br/>
   <%= token_tag form_authenticity_token %>
 

@@ -1,0 +1,22 @@
+<div class="col-md-4 col-sm-12">
+  <div class="input-group friend-search-bar">
+    <input type="text" class="form-control friend-search-input" placeholder="Search for...">
+    <span class="input-group-btn">
+      <button class="btn btn-default friend-search-button" type="button">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+      </button>
+    </span>
+  </div>
+</div>
+<script>
+  $('.friend-search-button').click(function(){
+    var search_string = $('.friend-search-input').val();
+    window.location = '/friends/search/' + encodeURIComponent(search_string);
+  });
+  $(".friend-search-input").keypress(function(e) {
+    if(e.keyCode == 13){
+       e.preventDefault();
+       $('.friend-search-button').click();
+    }
+  });
+</script>

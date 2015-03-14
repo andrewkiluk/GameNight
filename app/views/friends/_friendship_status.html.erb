@@ -1,0 +1,46 @@
+<div id="friendship-status">
+  <% if @friend_status == Status::EQUAL%>
+    This is you!
+  <% elsif @friend_status == Status::ACTIVE%>
+    You are friends with <%=@shown_user.name%>.
+    <a class="friendship-cancel" href>Cancel friendship?</a>
+  <% elsif @friend_status == Status::PENDING %>
+    You have requested to be friends with <%=@shown_user.name%>.
+    <a class="request-cancel" href>Cancel request?</a>
+  <% else %>
+    You are not yet friends with <%=@shown_user.name%>.
+    <a class="friendship-add" href>Send a friend request</a>
+  <% end %>
+</div>
+
+<script>
+  $('.request-cancel').click(function(e){
+    $.ajax({
+        url: '/friends/<%= @shown_user.id %>',
+        method: 'DELETE',
+        success: function(){
+          window.location.reload();
+        }
+    });
+  });
+  $('.friendship-cancel').click(function(e){
+    if(confirm("Are you sure you want to remove <%=@shown_user.name%> from your friends?")){
+      $.ajax({
+        url: '/friends/<%= @shown_user.id %>',
+        method: 'DELETE',
+        success: function(){
+          window.location.reload();
+        }
+      });
+    }
+  });
+  $('.friendship-add').click(function(e){
+    $.ajax({
+        url: '/friends/<%= @shown_user.id %>',
+        method: 'POST',
+        success: function(){
+          window.location.reload();
+        }
+    });
+  });
+</script>

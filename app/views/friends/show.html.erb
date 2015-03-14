@@ -1,0 +1,7 @@
+<h1><%=@shown_user.name%></h1>
+
+<%= render partial: "friendship_status" %>
+
+<%= render partial: "games_compare",
+           locals:{my_games: @my_games, our_games: @our_games, their_games: @their_games}
+%>

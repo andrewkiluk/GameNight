@@ -1,16 +1,57 @@
+<% if @friend_requests && @friend_requests.size > 0%>
+  <h1>You have pending friend requests!</h1>
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <div class="well well-lg">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <div>
+              <% @friend_requests.each do |user|%>
+                <%= user.name %>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <div>
+              <% @friend_requests.each do |user|%>
+                <a class="request-confirm" href="/friends/confirm/<%= user.id %>">Confirm</a>
+                <a class="request-reject" href="/friends/<%= user.id %>">Reject</a>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
 <h1>Friends</h1>
 <br/>
 <div class="row">
-<% @friends.each do |friend| %>
-  <% pawn_color = "%06x" % (rand * 0xffffff)%>
-  <div class="col-md-3 center-text">
-    <a href="/friends/<%= friend.id %>">
-      <div class="well friend-well" >
-        <%= image_tag '/images/pawn-invert.png', size: "30x50", class: 'pawn-mask', style: "background: #" + pawn_color + ";" %>
-        <p><%= friend.name %></p>
-      </div>
-    </a>
-  </div>
+  <%= render partial: "list_friends", locals: {users: @friends, page: :list} %>
 </div>
 
-<% end %>
+<script>
+
+  $('.request-confirm').click(function(e){
+    e.preventDefault();
+    $.ajax({
+        url: this.href,
+        method: 'POST',
+        success: function(){
+          window.location.reload();
+        }
+    });
+  });
+
+  $('.request-reject').click(function(e){
+    e.preventDefault();
+    $.ajax({
+        url: this.href,
+        method: 'DELETE',
+        success: function(){
+          window.location.reload();
+        }
+    });
+  });
+
+</script>
