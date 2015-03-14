@@ -1,5 +1,5 @@
 class Library < ActiveRecord::Base
-  include Status
+  require Status
 
   has_many :library_games
   belongs_to :user

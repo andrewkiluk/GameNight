@@ -1,5 +1,5 @@
 class LibraryGame < ActiveRecord::Base
-  include Status
+  require Status
 
   belongs_to :library
   belongs_to :game
