@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :require_login
   before_action :check_requests
 
-  require Status
+  include Status
 
   private
 

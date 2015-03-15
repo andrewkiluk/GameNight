@@ -1,5 +1,5 @@
 class Invitation < ActiveRecord::Base
-  require Status
+  include Status
 
   belongs_to :user
   belongs_to :event

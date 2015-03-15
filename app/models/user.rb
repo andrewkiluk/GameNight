@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  require Status
+  include Status
 
   has_many :invitations
   has_many :events, through: :invitations

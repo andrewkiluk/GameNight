@@ -1,5 +1,5 @@
 class GameEvent < ActiveRecord::Base
-  require Status
+  include Status
 
   belongs_to :game
   belongs_to :event

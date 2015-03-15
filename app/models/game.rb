@@ -1,5 +1,5 @@
 class Game < ActiveRecord::Base
-	require Status
+	include Status
   require 'net/http'
   require 'open-uri'
 

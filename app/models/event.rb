@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  require Status
+  include Status
 
   belongs_to :host, class_name: "User"
   has_many :game_events

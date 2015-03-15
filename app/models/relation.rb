@@ -1,5 +1,5 @@
 class Relation < ActiveRecord::Base
-  require Status
+  include Status
 
   belongs_to :user, class_name: "User"
   belongs_to :related_user, class_name: "User"
