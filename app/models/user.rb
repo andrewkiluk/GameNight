@@ -5,11 +5,17 @@ class User < ActiveRecord::Base
   has_many :events, through: :invitations
   has_many :hosted_events, source: :events
   has_many :relations
-  has_one :library
+  belongs_to :library
 
   def self.search(search_string)
     search_fragment = "%" + search_string + "%"
     User.where("email LIKE ? OR name LIKE ?", search_fragment, search_fragment)
+  end
+
+
+  def self.make_new_user(name, email, hashed_password)
+    library = Library.create()
+    User.create(name: name, email: email, hashed_password: hashed_password, library: library)
   end
 
 

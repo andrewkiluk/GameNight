@@ -50,7 +50,7 @@ class AccountsController < ApplicationController
     end
 
     # attempt user creation
-    user = User.create(name: name, email: email, hashed_password: hashed_password)
+    user = User.make_new_user(name, email, hashed_password)
     if user
       flash[:success] = "Sign up successful!"
       login

@@ -1,7 +1,7 @@
 class Game < ActiveRecord::Base
 	include Status
   require 'net/http'
-  require 'open-uri'
+  require 'erb'
 
   has_many :library_games
   has_many :libraries, through: :library_games
@@ -10,26 +10,26 @@ class Game < ActiveRecord::Base
 
 
 
+  # Search the BoardGameGeek database for games
+  def self.bgg_search(unencoded_search_string)
 
-  def self.bgg_search(unsafe_search_string)
-
-    search_string = URI::www_form_encode_component(unsafe_search_string)
+    search_string = ERB::Util.url_encode(unencoded_search_string)
 
     url_string = 'http://www.boardgamegeek.com/xmlapi2/search?query=' + search_string
     Game.api_request(url_string)
 
   end
 
-
+  # Retrieve data from BoardGameGeek about a game
   def self.bgg_show(bgg_id)
 
-    url_string = 'http://www.boardgamegeek.com/xmlapi2/thing?id=' + bgg_id
+    url_string = 'http://www.boardgamegeek.com/xmlapi2/thing?stats=1&id=' + bgg_id
     Game.api_request(url_string)
 
   end
 
-
-  def self.api_request(url)
+  # Wrapper for making API requests
+  def self.api_request(url_string)
     url = URI.parse(url_string)
     request = Net::HTTP::Get.new(url.to_s)
     response = Net::HTTP.start(url.host, url.port) {|http|
@@ -37,6 +37,5 @@ class Game < ActiveRecord::Base
     }
     Hash.from_xml(response.body)
   end
-
 
 end

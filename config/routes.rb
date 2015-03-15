@@ -24,9 +24,9 @@ Rails.application.routes.draw do
   get    'games'                          => 'games#index',                 as: :games
   get    'games/search'                   => 'games#search',                as: :games_search_form
   get    'games/search/:search_string'    => 'games#search_action',         as: :games_search_action
-  get    'games/:id'                      => 'games#show',                  as: :games_show
-  post   'games/:id'                      => 'games#add',                   as: :games_add
-  delete 'games/:id'                      => 'games#delete',                as: :games_delete
+  get    'games/:bgg_id'                  => 'games#show',                  as: :games_show
+  post   'games/:bgg_id'                  => 'games#add',                   as: :games_add
+  delete 'games/:bgg_id'                  => 'games#delete',                as: :games_delete
 
   # events routes
   get    'events'                         => 'events#index',                as: :events

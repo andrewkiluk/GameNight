@@ -3,21 +3,12 @@
 <h1>Your Game Library</h1>
 
 <table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Last sync</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
   <tbody>
     <% @games.each do |game| %>
       <tr>
+        <td><%= image_tag "GameNight-logo.png", alt: game.title, size: "100x100" %></td>
         <td><%= game.title %></td>
-        <td><%= game.last_sync %></td>
-        <td><%= link_to 'Show', game %></td>
-        <td><%= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

@@ -1,61 +1,61 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy]
 
-
-  #require 'json'
-  #require 'net/http'
-  #s = Net::HTTP.get_response(URI.parse('http://stackoverflow.com/feeds/tag/ruby/')).body
-  #Hash.from_xml(s).to_json
-
-  # GET /games
-  # GET /games.json
   def index
     library_id = @current_user.library_id
-    @games = Game
-      .joins(:libraries)
-      .where("library_id = ?", library_id)
+    if library_id
+      @games = Game
+        .joins(:libraries)
+        .where("library_id = ?", library_id)
+    else
+      flash[:error] = "This account has no associated game library!"
+      @games = []
+    end
 
   end
 
-  # GET /games/1
-  # GET /games/1.]json
+
   def show
+    bgg_id = params[:bgg_id]
+    response = Game.bgg_show(bgg_id)
+    render text: response.to_json
   end
 
-  # POST /games
-  # POST /games.json
-  def create
-    @game = Game.new(game_params)
 
-    respond_to do |format|
-      if @game.save
-        format.html { redirect_to @game, notice: 'Game was successfully created.' }
-        format.json { render :show, status: :created, location: @game }
-      else
-        format.html { render :new }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
-      end
-    end
+  def search
+
   end
 
-  # DELETE /games/1
-  # DELETE /games/1.json
-  def destroy
-    @game.destroy
-    respond_to do |format|
-      format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+
+  def search_action
+    search_string = params[:search_string]
+    response = Game.bgg_search(search_string)
+    render text: response
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_game
-      @game = Game.find(params[:id])
+
+  def add
+    bgg_id = params[:bgg_id]
+    game_in_db = Game.find(bgg_id: bgg_id)
+    if game_in_db
+      @game = game_in_db
+    else
+      bgg_data = Game.bgg_show(bgg_id)
+      @game = Game.create_from_bgg(bgg_data)
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def game_params
-      params.require(:game).permit(:title, :last_sync)
-    end
+    LibraryGame.create(library: @current_user.library, game: @game)
+
+    render text: success
+
+  end
+
+
+  def delete
+    bgg_id = params[:bgg_id]
+    @game = Game.find(bgg_id: bgg_id)
+    LibraryGame.destroy(library: @current_user.library, game: @game)
+
+    render text: success
+  end
+
 end
