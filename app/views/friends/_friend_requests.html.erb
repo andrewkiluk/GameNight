@@ -1,0 +1,24 @@
+<% if @friend_requests && @friend_requests.size > 0%>
+  <h1>You have pending friend requests!</h1>
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <div class="well well-lg">
+        <div class="row">
+          <% @friend_requests.each do |user|%>
+            <div class="col-md-6 col-sm-12">
+              <div>
+                <%= user.name %>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <div>
+                  <a class="request-confirm" href="/friends/confirm/<%= user.id %>">Confirm</a>
+                  <a class="request-reject" href="/friends/<%= user.id %>">Reject</a>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

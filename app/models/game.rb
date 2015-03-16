@@ -9,13 +9,64 @@ class Game < ActiveRecord::Base
   has_many :events, through: :game_events
 
 
+  def self.owners(bgg_id)
+    User
+      .joins('INNER JOIN libraries l ON l.id = users.library_id')
+      .joins('INNER JOIN library_games lg ON lg.library_id = l.id')
+      .joins('INNER JOIN games g ON lg.game_id = g.id')
+      .where("g.bgg_id = ?", bgg_id)
+      .first(500)
+  end
+
+
+  def self.by_user(user)
+    unless user && user.library_id
+      return []
+    end
+
+    Game
+      .joins(:libraries)
+      .where("library_id = ?", user.library_id)
+  end
+
+
+  def self.create_from_bgg(bgg_data)
+    bgg_rank = 0
+    begin
+      bgg_rank = bgg_data['statistics']['ratings']['ranks']['rank']
+                    .select{ |ranking| ranking['name'] == 'boardgame'}[0]['value']
+    rescue
+      bgg_rank = ""
+    end
+    game_title = bgg_data['name']
+                  .select{ |name| name['type'] == 'primary' }[0]['value']
+    logger.info '************************'
+    logger.info bgg_rank
+    logger.info game_title
+    logger.info '************************'
+
+    game_data = {
+      title: game_title,
+      bgg_id: bgg_data['id'],
+      bgg_rating: bgg_data['statistics']['ratings']['average']['value'],
+      bgg_rank: bgg_rank,
+      bgg_min_players: bgg_data['minplayers']['value'],
+      bgg_max_players: bgg_data['maxplayers']['value'],
+      bgg_image: bgg_data['image'],
+      bgg_playing_time: bgg_data['playingtime']['value']
+    }
+
+    Game.create(game_data)
+
+  end
+
 
   # Search the BoardGameGeek database for games
   def self.bgg_search(unencoded_search_string)
 
     search_string = ERB::Util.url_encode(unencoded_search_string)
 
-    url_string = 'http://www.boardgamegeek.com/xmlapi2/search?query=' + search_string
+    url_string = 'http://www.boardgamegeek.com/xmlapi2/search?type=boardgame&query=' + search_string
     Game.api_request(url_string)
 
   end

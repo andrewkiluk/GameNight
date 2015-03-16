@@ -1,0 +1,22 @@
+<div class="col-md-4 col-sm-12">
+  <div class="input-group game-search-bar">
+    <input type="text" class="form-control game-search-input" placeholder="Search for...">
+    <span class="input-group-btn">
+      <button class="btn btn-default game-search-button" type="button">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+      </button>
+    </span>
+  </div>
+</div>
+<script>
+  $('.game-search-button').click(function(){
+    var search_string = $('.game-search-input').val();
+    window.location = '/games/search/' + encodeURIComponent(search_string);
+  });
+  $(".game-search-input").keypress(function(e) {
+    if(e.keyCode == 13){
+       e.preventDefault();
+       $('.game-search-button').click();
+    }
+  });
+</script>

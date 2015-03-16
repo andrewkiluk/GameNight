@@ -47,20 +47,16 @@ ActiveRecord::Schema.define(version: 20150309032253) do
   create_table "games", force: :cascade do |t|
     t.text     "title"
     t.datetime "last_sync"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "bgg_gameId"
-    t.integer  "bgg_minPlayers"
-    t.integer  "bgg_maxPlayers"
-    t.float    "bgg_bggRating"
-    t.string   "bgg_image"
-    t.string   "bgg_thumbnail"
-    t.integer  "bgg_playingTime"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "bgg_id"
+    t.integer  "bgg_min_players"
+    t.integer  "bgg_max_players"
     t.integer  "bgg_rank"
-    t.integer  "library_game_id"
+    t.float    "bgg_rating"
+    t.string   "bgg_image"
+    t.integer  "bgg_playing_time"
   end
-
-  add_index "games", ["library_game_id"], name: "index_games_on_library_game_id"
 
   create_table "invitations", force: :cascade do |t|
     t.integer  "status"

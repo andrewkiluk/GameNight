@@ -15,6 +15,7 @@
 
 <script>
   $('.request-cancel').click(function(e){
+    e.preventDefault();
     $.ajax({
         url: '/friends/<%= @shown_user.id %>',
         method: 'DELETE',
@@ -24,6 +25,7 @@
     });
   });
   $('.friendship-cancel').click(function(e){
+    e.preventDefault();
     if(confirm("Are you sure you want to remove <%=@shown_user.name%> from your friends?")){
       $.ajax({
         url: '/friends/<%= @shown_user.id %>',
@@ -35,6 +37,7 @@
     }
   });
   $('.friendship-add').click(function(e){
+    e.preventDefault();
     $.ajax({
         url: '/friends/<%= @shown_user.id %>',
         method: 'POST',

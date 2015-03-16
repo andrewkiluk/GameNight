@@ -23,9 +23,8 @@ class FriendsController < ApplicationController
 
     @friend_status = @shown_user && @current_user.get_friend_status(@shown_user)
 
-    @my_games = [] #Game.find
-    @our_games = [] #Game.find
-    @their_games = [] #Game.find
+    friend = User.find(id)
+    @my_games, @our_games, @their_games = @current_user.compare_collections(friend)
 
   end
 

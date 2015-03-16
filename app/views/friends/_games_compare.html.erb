@@ -1,1 +1,25 @@
-games_compare_placeholder
+
+<div class="row table-header">
+  <div class="col-md-4">My Games</div>
+  <div class="col-md-4">Our Games</div>
+  <div class="col-md-4">Their Games</div>
+</div>
+<div class="table-body">
+  <div class="row">
+    <div class="col-md-4">
+    <% @my_games.each do |game| %>
+      <p><%= link_to game.title, "/games/#{game.bgg_id}" %></p>
+    <% end %>
+    </div>
+    <div class="col-md-4">
+    <% @our_games.each do |game| %>
+      <p><%= link_to game.title, "/games/#{game.bgg_id}" %></p>
+    <% end %>
+    </div>
+    <div class="col-md-4">
+    <% @their_games.each do |game| %>
+      <p><%= link_to game.title, "/games/#{game.bgg_id}" %></p>
+    <% end %>
+    </div>
+  </div>
+</div>

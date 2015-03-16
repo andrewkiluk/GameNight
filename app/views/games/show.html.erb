@@ -1,14 +1,31 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @game.title %>
-</p>
-
-<p>
-  <strong>Last sync:</strong>
-  <%= @game.last_sync %>
-</p>
-
-<%= link_to 'Edit', edit_game_path(@game) %> |
-<%= link_to 'Back', games_path %>
+<h1 class="show-title"><%= @game.title %></h1>
+<div class="row">
+  <div class="col-xs-4">
+    <%= image_tag "#{@game.bgg_image}", class: "game-image" %>
+  </div>
+  <% game_data = {
+      :'Players' => "#{@game.bgg_min_players} - #{@game.bgg_max_players}",
+      :'Playing Time' => "#{@game.bgg_playing_time}",
+      :'BGG Rank' => "#{@game.bgg_rank ? @game.bgg_rank : 'Not Ranked'}",
+      :'BGG Rating' => "#{@game.bgg_rating}",
+    } %>
+  <div class="col-xs-4">
+    <div class="well">
+      <% game_data.each do |key, value| %>
+      <div class="row">
+        <div class="col-md-6 col-xs-12">
+          <strong><%= key %>:</strong>
+        </div>
+        <div class="col-md-6 col-xs-12">
+          <%= value %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<br>
+<h1>Users with this game:</h1>
+<% @owners.each do |user|%>
+  <p><%= link_to user.name, "/friends/#{user.id}" %></p>
+<% end %>

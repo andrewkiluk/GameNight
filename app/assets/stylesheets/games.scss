@@ -1,3 +1,20 @@
 // Place all the styles related to the Games controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.no-results-message {
+  margin-top: 20px;
+}
+
+.game-image {
+  display: block;
+
+  max-width:250px;
+  max-height:250px;
+  width: auto;
+  height: auto;
+}
+
+.show-title {
+  margin: 20px 0px;
+}

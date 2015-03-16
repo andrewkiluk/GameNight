@@ -41,6 +41,19 @@ class User < ActiveRecord::Base
   end
 
 
+  def compare_collections(friend)
+
+    all_my_games = Game.by_user(self)
+    all_their_games = Game.by_user(friend)
+
+    my_games = all_my_games - all_their_games
+    our_games = all_my_games & all_their_games
+    their_games = all_their_games - all_my_games
+
+     return my_games, our_games, their_games
+  end
+
+
   def to_s
     "User: id=#{id}, name=#{name}, email=#{email}"
   end

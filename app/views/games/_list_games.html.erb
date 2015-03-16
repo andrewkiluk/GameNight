@@ -1,0 +1,82 @@
+
+<% if @games.empty? %>
+  <div class="col-md-6 no-results-message">
+    <% if context == :list %>
+    Your library is empty. <%= link_to 'Find your games', games_search_form_url %>.
+    <% elsif context == :search %>
+    No results found!
+    <% end %>
+  </div>
+<% else %>
+
+  <% if context == :list %>
+  <div class="row table-header">
+    <div class="col-md-2 col-sm-4">Title</div>
+    <div class="col-md-2 col-sm-4">BGG Rank</div>
+    <div class="col-md-2 col-sm-4">Players</div>
+    <div class="col-md-2 col-sm-4">Playing Time</div>
+  </div>
+  <div class="table-body">
+    <% @games.each do |game| %>
+      <div class="row">
+        <div class="table-cell col-md-2 col-sm-4">
+        <%= link_to game.title, "/games/#{game.bgg_id}" %>
+        </div>
+        <div class="table-cell col-md-2 col-sm-4"><%= game.bgg_rank %></div>
+        <div class="table-cell col-md-2 col-sm-4">
+          <%= game.bgg_min_players %> - <%= game.bgg_max_players %>
+        </div>
+        <div class="table-cell col-md-2 col-sm-4"><%= game.bgg_playing_time %> Minutes</div>
+        <div class="table-cell col-md-2 col-sm-4">
+          <%= link_to 'Delete', "/games/#{game.bgg_id}", class: "game-delete" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% elsif context == :search %>
+  <div class="row table-header">
+    <div class="col-md-6">Game</div>
+  </div>
+  <div class="table-body">
+    <% @games.each do |game| %>
+      <div class="row">
+        <div class="table-cell col-md-6">
+        <%= link_to game['name']['value'], "/games/#{game['id']}" %>
+        </div>
+        <div class="table-cell col-md-2 col-sm-3">
+          <% if @owned_game_bgg_ids.include?(game['id']) %>
+            Already in Library
+          <% else %>
+            <%= link_to 'Add to Library', "/games/#{game['id']}", class: "game-add" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% end %>
+<% end %>
+
+<script>
+$('.game-add').click(function(e){
+  e.preventDefault();
+  $.ajax({
+      url: this.href,
+      method: 'POST',
+      success: function(){
+        window.location.reload();
+      }
+  });
+});
+$('.game-delete').click(function(e){
+  e.preventDefault();
+  if(confirm("Are you sure you want to remove this game from your library?")){
+    $.ajax({
+      url: this.href,
+      method: 'DELETE',
+      success: function(){
+        window.location.reload();
+      }
+    });
+  }
+});
+</script>

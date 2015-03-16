@@ -14,12 +14,14 @@ class Relation < ActiveRecord::Base
 
 
   def self.delete_friend(current_user, id)
-    relation = Relation.where("user_id = ? AND related_user_id = ?", id, current_user.id).first
-    status = relation.status
+    relation = Relation.where("user_id = ? AND related_user_id = ?", current_user.id, id).first
+    status = relation ? relation.status : Status::NULL
 
-    inverse = relation.inverse
-    relation.destroy if relation
-    inverse.destroy if inverse
+    if relation
+      inverse = relation.inverse
+      relation.destroy if relation
+      inverse.destroy if inverse
+    end
 
     status
   end

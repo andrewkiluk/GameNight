@@ -1,29 +1,4 @@
-<% if @friend_requests && @friend_requests.size > 0%>
-  <h1>You have pending friend requests!</h1>
-  <div class="row">
-    <div class="col-md-6 col-sm-12">
-      <div class="well well-lg">
-        <div class="row">
-          <div class="col-md-6 col-sm-12">
-            <div>
-              <% @friend_requests.each do |user|%>
-                <%= user.name %>
-              <% end %>
-            </div>
-          </div>
-          <div class="col-md-6 col-sm-12">
-            <div>
-              <% @friend_requests.each do |user|%>
-                <a class="request-confirm" href="/friends/confirm/<%= user.id %>">Confirm</a>
-                <a class="request-reject" href="/friends/<%= user.id %>">Reject</a>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-<% end %>
+<%= render partial: "friend_requests" %>
 <h1>Friends</h1>
 <br/>
 <div class="row">
