@@ -1,14 +1,18 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :update, :delete]
+
 
   # GET /events
-  # GET /events.json
   def index
-    @events = Event.all
+    @upcoming_events = Event
+                        .joins('INNER JOIN invitations inv on inv.event_id = events.id')
+                        .joins('INNER JOIN users u on inv.user_id = u.id')
+                        .where('u.id = ?', @current_user.id)
+                        .where('inv.status != ?', Status::REJECTED)
+                        .first(500)
   end
 
   # GET /events/1
-  # GET /events/1.json
   def show
   end
 
@@ -17,48 +21,39 @@ class EventsController < ApplicationController
     @event = Event.new
   end
 
-  # GET /events/1/edit
-  def edit
-  end
-
   # POST /events
-  # POST /events.json
-  def create
+  def new_action
     @event = Event.new(event_params)
 
-    respond_to do |format|
-      if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render :show, status: :created, location: @event }
-      else
-        format.html { render :new }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
+    if @event.save
+      flash['success'] = 'Event was successfully created.'
+      redirect_to @event
+    else
+      render :new
       end
-    end
   end
 
-  # PATCH/PUT /events/1
-  # PATCH/PUT /events/1.json
+
   def update
-    respond_to do |format|
-      if @event.update(event_params)
-        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
-        format.json { render :show, status: :ok, location: @event }
-      else
-        format.html { render :edit }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
+
+  end
+
+
+  # POST /events/1
+  def update_action
+    if @event.update(event_params)
+      flash['success'] = 'Event was successfully updated.'
+      redirect_to @event
+    else
+      render :update_form
     end
   end
 
   # DELETE /events/1
-  # DELETE /events/1.json
   def destroy
-    @event.destroy
-    respond_to do |format|
-      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    @event.delete
+    flash['success'] = 'Event was successfully deleted.'
+    redirect_to :events
   end
 
   private

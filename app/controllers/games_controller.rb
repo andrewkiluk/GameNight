@@ -28,6 +28,7 @@ class GamesController < ApplicationController
 
 
   def search
+    # Just render the form
   end
 
 
