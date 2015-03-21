@@ -39,11 +39,12 @@ class Game < ActiveRecord::Base
       bgg_rank = ""
     end
     game_title = bgg_data['name']
-                  .select{ |name| name['type'] == 'primary' }[0]['value']
-    logger.info '************************'
-    logger.info bgg_rank
-    logger.info game_title
-    logger.info '************************'
+
+    if game_title.is_a?(Array)
+      game_title = game_title.select{ |name| name['type'] == 'primary' }[0]['value']
+    else
+      game_title = game_title['value']
+    end
 
     game_data = {
       title: game_title,
@@ -75,7 +76,7 @@ class Game < ActiveRecord::Base
   def self.bgg_show(bgg_id)
 
     url_string = 'http://www.boardgamegeek.com/xmlapi2/thing?stats=1&id=' + bgg_id
-    Game.api_request(url_string)
+    Game.api_request(url_string)['items']['item']
 
   end
 

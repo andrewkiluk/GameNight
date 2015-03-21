@@ -16,6 +16,10 @@ class GamesController < ApplicationController
     bgg_id = params[:bgg_id]
 
     @game = Game.where(bgg_id: bgg_id).first
+    unless @game
+      bgg_data = Game.bgg_show(bgg_id)
+      @game = Game.create_from_bgg(bgg_data)
+    end
 
     @owners = Game.owners(bgg_id)
 
@@ -44,7 +48,7 @@ class GamesController < ApplicationController
     if game_in_db
       @game = game_in_db
     else
-      bgg_data = Game.bgg_show(bgg_id)['items']['item']
+      bgg_data = Game.bgg_show(bgg_id)
       @game = Game.create_from_bgg(bgg_data)
     end
 
