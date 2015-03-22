@@ -3,6 +3,5 @@
 <div class="row">
   <%= render partial: "game_search" %>
 </div>
-<div class="row">
-  <%= render partial: "list_games", locals: {games: @games, context: :search} %>
-</div>
+
+<%= render partial: "list_games", locals: {games: @games, context: :search} %>

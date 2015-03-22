@@ -1,3 +1,17 @@
 // Place all the styles related to the Events controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.event_form input, .date {
+  width: 300px;
+}
+
+.form-control.event-description {
+  height: 100px;
+  width: 300px;
+}
+
+#event_form .row {
+  margin: 15px 0px ;
+}
+

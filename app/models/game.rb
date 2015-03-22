@@ -27,6 +27,7 @@ class Game < ActiveRecord::Base
     Game
       .joins(:libraries)
       .where("library_id = ?", user.library_id)
+      .order("games.title")
   end
 
 

@@ -12,8 +12,6 @@ class FriendsController < ApplicationController
   def search_action
     search_string = params["search_string"]
     @search_results = User.search(search_string)
-
-    @friends = @current_user.get_friends
   end
 
 

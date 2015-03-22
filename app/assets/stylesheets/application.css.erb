@@ -11,12 +11,17 @@
  * file per style scope.
  *
  *= require bootstrap.min
+ *= require bootstrap-datetimepicker
  *= require_tree .
  *= require_self
  */
 
 h1 {
   font-size: 24px;
+}
+h2 {
+  font-size: 13px;
+  font-weight: 700;
 }
 
 #navbar-login{
@@ -44,4 +49,43 @@ h1 {
 }
 .table-body .row:nth-child(even) .table-cell {
   background: #eee;
+}
+hr {
+  border-top: 1px solid #CCC;
+}
+
+.login-form, .account-input {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.account-label, .account-input {
+    display: inline-block;
+    vertical-align: baseline;
+    width: 125px;
+}
+.account-label{
+    text-align: right;
+    margin-right: 5px;
+}
+.account-input {
+  display: inline;
+  width: 200px;
+  margin: 10px 0px;
+}
+.account-button {
+  margin-top: 8px;
+}
+
+.well.selected {
+  border: 1px solid #337AB7;
+}
+.friend-select p{
+  cursor:default;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

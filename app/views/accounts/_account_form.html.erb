@@ -1,19 +1,19 @@
 <form id="signup_form" class="account_form" method="POST" action="/signup">
   <h1>Sign Up</h1>
   <br/>
-  <%= label_tag :email, "Email Address: " %>
+  <%= label_tag :email, "Email Address: ", class: "account-label" %>
   <%= text_field_tag :email, nil, class: "account-input form-control" %>
   <br/>
-  <%= label_tag :name, "Name: " %>
+  <%= label_tag :name, "Name: ", class: "account-label" %>
   <%= text_field_tag :name, nil, class: "account-input form-control" %>
   <br/>
-  <%= label_tag :password, "Password: " %>
+  <%= label_tag :password, "Password: ", class: "account-label" %>
   <%= password_field_tag :password, nil, class: "account-input form-control" %>
   <br/>
-  <%= label_tag :password_confirm, "Confirm Password: " %>
+  <%= label_tag :password_confirm, "Confirm Password: ", class: "account-label" %>
   <%= password_field_tag :password_confirm , nil, class: "account-input form-control" %>
   <br/>
   <%= token_tag form_authenticity_token %>
 
-  <button class="btn" type="submit">Sign Up</button>
+  <button class="btn btn-default account-button" type="submit">Sign Up</button>
 </form>

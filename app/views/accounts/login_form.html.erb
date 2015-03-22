@@ -2,13 +2,13 @@
   <form id="login_form" class="account_form" method="POST" action="/login">
     <h1>Log In </h1>
     <br/>
-    <%= label_tag :email, "Email Address: " %>
+    <%= label_tag :email, "Email Address: ", class: "account-label" %>
     <%= text_field_tag :email, nil, class: "account-input form-control" %>
     <br/>
-    <%= label_tag :password, "Password: " %>
+    <%= label_tag :password, "Password: ", class: "account-label" %>
     <%= password_field_tag :password, nil, class: "account-input form-control" %>
     <br/>
-    <button class="btn" id="login_button" type="submit">Log In</button>
+    <button class="btn btn-default account-button" id="login_button" type="submit">Log In</button>
     <%= hidden_field_tag :redirect_path, flash[:redirect_path]%>
     <%= token_tag form_authenticity_token %>
   </form>

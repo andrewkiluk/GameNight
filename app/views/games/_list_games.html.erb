@@ -22,7 +22,7 @@
         <div class="table-cell col-md-2 col-sm-4">
         <%= link_to game.title, "/games/#{game.bgg_id}" %>
         </div>
-        <div class="table-cell col-md-2 col-sm-4"><%= game.bgg_rank %></div>
+        <div class="table-cell col-md-2 col-sm-4"><%= game.bgg_rank || 'Not Ranked' %></div>
         <div class="table-cell col-md-2 col-sm-4">
           <%= game.bgg_min_players %> - <%= game.bgg_max_players %>
         </div>
