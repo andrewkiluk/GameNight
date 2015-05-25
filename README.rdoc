@@ -3,3 +3,5 @@
 GameNight is a social networking app focused on organizing board game events. It integrates with the BoardGameGeek API
 to let you find the games in your collection, and pools all of your friends' games in one place so you can decide what
 to bring and play.
+
+There's an instance of it running at gamenight.andrewkiluk.com
