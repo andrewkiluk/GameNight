@@ -1,2 +1,90 @@
+<h1 class="show-title"><%= "Games at " + @event.place %></h1>
+<% if @event.host == @current_user %>
+<%= link_to 'Edit', events_update_form_path(@event) %>
+&nbsp;
+<%= link_to 'Delete', events_delete_path(@event), class: "event-delete" %>
+  <br>
+  <br>
+<% elsif @invitation && @invitation.status == Status::PENDING %>
+<div>
+  <%= link_to 'Accept', "/events/#{@event.id}/respond", class: "event-accept" %>
+  &nbsp;
+  <%= link_to 'Reject', "/events/#{@event.id}/respond", class: "event-reject" %>
+  <br>
+  <br>
+</div>
+<% end %>
 
-<%= link_to 'Back', events_path %>
+<div class="row">
+<% event_data = {
+      :'Description' => "#{@event.description.empty? ? '(None)' : @event.description }",
+      :'Time' => "#{Utility.from_active_record @event.start_time}",
+      :'Place' => "#{@event.place}",
+    } %>
+  <div class="col-md-6 col-xs-12">
+    <div class="well">
+      <% event_data.each do |key, value| %>
+      <div class="row">
+        <div class="col-md-3 col-xs-12">
+          <strong><%= key %>:</strong>
+        </div>
+        <div class="col-md-9 col-xs-12">
+          <%= value %>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<h2>Attending</h2>
+<div class="row">
+  <%= render partial: "friends/list_friends", locals: {users: @attendees, page: :event_show} %>
+</div>
+
+<h2>Available Games</h2>
+<% @games.each do |game| %>
+<div class="row">
+  <div class="col-md-6 col-xs-12">
+    <p><%= link_to game.title, "/games/#{game.bgg_id}" %></p>
+  </div>
+</div>
+<% end %>
+
+<script>
+$('.event-accept').click(function(e){
+  e.preventDefault();
+  $.ajax({
+    url: this.href,
+    method: 'POST',
+    data: {response: '<%= Status::ACCEPTED %>'},
+    success: function(){
+      window.location.reload();
+    }
+  });
+});
+
+$('.event-reject').click(function(e){
+  e.preventDefault();
+  $.ajax({
+    url: this.href,
+    method: 'POST',
+    data: {response: '<%= Status::REJECTED %>'},
+    success: function(){
+      window.location.reload();
+    }
+  });
+});
+$('.event-delete').click(function(e){
+  e.preventDefault();
+  if(confirm("Are you sure you want to cancel this event?")){
+    $.ajax({
+      url: this.href,
+      method: 'DELETE',
+      success: function(){
+        window.location = '/events';
+      }
+    });
+  }
+});
+</script>

@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get    'events/:id/update'              => 'events#update',               as: :events_update_form
   get    'events/:id'                     => 'events#show',                 as: :event
   post   'events/:id'                     => 'events#update_action',        as: :events_update
+  post   'events/:id/respond'             => 'events#respond',              as: :events_respond
   delete 'events/:id'                     => 'events#delete',               as: :events_delete
 
 

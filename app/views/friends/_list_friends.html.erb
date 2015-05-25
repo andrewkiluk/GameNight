@@ -6,7 +6,9 @@
         <%= link_to 'Find them here', :friends_search_form %>.
       </p>
     <% elsif page == :search %>
-     <p>No users found!</p>
+      <p>No users found!</p>
+    <% elsif page == :event %>
+      <p>All invitations are pending.</p>
     <% end %>
   </div>
 <% else %>
@@ -21,11 +23,18 @@
         </div>
       </a>
       <% elsif page == :event %>
-      <div class="well friend-well friend-select <% @invited_friends.include?(user) ? 'selected' : '' %>" >
+      <div class="well friend-well friend-select <%= @invited_friends.include?(user) ? 'selected' : '' %>" >
         <%= image_tag 'pawn-invert.png', size: "28x50", class: 'pawn-mask', style: "background: #" + pawn_color + ";" %>
         <p><%= user.name %></p>
         <input class="friend_id" type="hidden" value="<%= user.id %>"/>
       </div>
+      <% elsif page == :event_show %>
+      <a href="/friends/<%= user.id %>">
+        <div class="well friend-well" >
+          <%= image_tag 'pawn-invert.png', size: "28x50", class: 'pawn-mask', style: "background: #" + pawn_color + ";" %>
+          <p><%= user.name %></p>
+        </div>
+      </a>
       <% end %>
     </div>
   <% end %>

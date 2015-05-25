@@ -1,0 +1,86 @@
+<% if events.empty? %>
+  <% if type == :past %>
+  <p class="margin-top">
+    You have no past events.
+  </p>
+  <% elsif type == :upcoming %>
+  <p class="margin-top">
+    You have no upcoming events.
+    Why not <%= link_to "host one", :events_new_form %>?
+  </p>
+  <% end %>
+<% else %>
+  <div class="row table-header">
+    <div class="col-md-3 col-sm-4">Event</div>
+    <div class="col-md-3 col-sm-4">Date/Time</div>
+  </div>
+  <div class="table-body">
+    <% events.each do |event| %>
+    <div class="row table-row">
+      <div class="table-cell col-md-3 col-sm-4">
+        <%= link_to "Games at #{event.place}", event %>
+      </div>
+      <div class="table-cell col-md-3 col-sm-4">
+      <%= Utility.from_active_record(event.start_time) %>
+      </div>
+      <% if type == :upcoming &&  %>
+        <% if event.host == @current_user %>
+        <div class="table-cell col-md-3 col-sm-4">
+          <%= link_to 'Edit', events_update_form_path(event) %>
+          &nbsp;
+          <%= link_to 'Cancel', "/events/#{event.id}", class: "event-delete" %>
+        </div>
+        <% else %>
+        <% invitation = Invitation.find_by_event(event.id, @current_user) %>
+          <% if invitation.status == Status::PENDING %>
+          <div class="table-cell col-md-3 col-sm-4">
+            <%= link_to 'Accept', "/events/#{event.id}/respond", class: "event-accept" %>
+            &nbsp;
+            <%= link_to 'Reject', "/events/#{event.id}/respond", class: "event-reject" %>
+          </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+    <% end %>
+  </tbody>
+<% end %>
+
+<script>
+$('.event-accept').click(function(e){
+  e.preventDefault();
+  $.ajax({
+    url: this.href,
+    method: 'POST',
+    data: {response: '<%= Status::ACCEPTED %>'},
+    success: function(){
+      window.location.reload();
+    }
+  });
+});
+
+$('.event-reject').click(function(e){
+  e.preventDefault();
+  $.ajax({
+    url: this.href,
+    method: 'POST',
+    data: {response: '<%= Status::REJECTED %>'},
+    success: function(){
+      window.location.reload();
+    }
+  });
+});
+
+$('.event-delete').click(function(e){
+  e.preventDefault();
+  if(confirm("Are you sure you want to cancel this event?")){
+    $.ajax({
+      url: this.href,
+      method: 'DELETE',
+      success: function(){
+        window.location.reload();
+      }
+    });
+  }
+});
+</script>

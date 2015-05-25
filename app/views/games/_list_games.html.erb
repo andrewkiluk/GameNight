@@ -18,7 +18,7 @@
   </div>
   <div class="table-body">
     <% @games.each do |game| %>
-      <div class="row">
+      <div class="row table-row">
         <div class="table-cell col-md-2 col-sm-4">
         <%= link_to game.title, "/games/#{game.bgg_id}" %>
         </div>
@@ -39,7 +39,7 @@
   </div>
   <div class="table-body">
     <% @games.each do |game| %>
-      <div class="row">
+      <div class="row table-row">
         <div class="table-cell col-md-6">
         <%= link_to game['name']['value'], "/games/#{game['id']}" %>
         </div>

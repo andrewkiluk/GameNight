@@ -19,6 +19,28 @@ class User < ActiveRecord::Base
   end
 
 
+  def compare_collections(friend)
+
+    all_my_games = Game.by_user(self)
+    all_their_games = Game.by_user(friend)
+
+    my_games = all_my_games - all_their_games
+    our_games = all_my_games & all_their_games
+    their_games = all_their_games - all_my_games
+
+     return my_games, our_games, their_games
+  end
+
+
+  def get_friend_status(other_user)
+    if self == other_user
+      return Status::EQUAL
+    end
+    relation = Relation.where("user_id =? AND related_user_id = ?", self.id, other_user.id).first
+    relation && relation.status
+  end
+
+
   def get_friends
     User
       .joins("JOIN relations AS rel
@@ -32,25 +54,31 @@ class User < ActiveRecord::Base
   end
 
 
-  def get_friend_status(other_user)
-    if self == other_user
-      return Status::EQUAL
-    end
-    relation = Relation.where("user_id =? AND related_user_id = ?", self.id, other_user.id).first
-    relation && relation.status
+  def get_past_events
+    invited_events = Event
+                        .joins('INNER JOIN invitations inv on inv.event_id = events.id')
+                        .joins('INNER JOIN users u on inv.user_id = u.id')
+                        .where('u.id = ?', self.id)
+                        .where('inv.status != ?', Status::REJECTED)
+                        .where('events.start_time <= ?', Time.now)
+                        .first(500)
+
+    hosted_events = Event.where(host: self).where('events.start_time <= ?', Time.now)
+    invited_events | hosted_events
   end
 
 
-  def compare_collections(friend)
+  def get_upcoming_events
+    invited_events = Event
+                        .joins('INNER JOIN invitations inv on inv.event_id = events.id')
+                        .joins('INNER JOIN users u on inv.user_id = u.id')
+                        .where('u.id = ?', self.id)
+                        .where('inv.status != ?', Status::REJECTED)
+                        .where('events.start_time > ?', Time.now)
+                        .first(500)
 
-    all_my_games = Game.by_user(self)
-    all_their_games = Game.by_user(friend)
-
-    my_games = all_my_games - all_their_games
-    our_games = all_my_games & all_their_games
-    their_games = all_their_games - all_my_games
-
-     return my_games, our_games, their_games
+    hosted_events = Event.where(host: id).where('events.start_time > ?', Time.now)
+    invited_events | hosted_events
   end
 
 

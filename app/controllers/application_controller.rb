@@ -35,7 +35,13 @@ class ApplicationController < ActionController::Base
       .where("rel.related_user_id == ?", @current_user.id)
       .where("rel.status == ?", Status::PENDING)
       .order("users.name")
-      @event_invites = nil
+
+      @event_invites = Invitation
+      .joins("JOIN users AS u ON invitations.user_id = u.id")
+      .joins("JOIN events AS e ON invitations.event_id = e.id")
+      .where("u.id = ?", @current_user)
+      .where("invitations.status = ?", Status::PENDING)
+      .first(500)
     end
   end
 

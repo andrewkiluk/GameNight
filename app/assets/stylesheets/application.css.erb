@@ -40,14 +40,21 @@ h2 {
   display: inline;
 }
 
+.margin-top {
+  margin-top: 20px;
+}
+
 .table-header div{
   font-weight: bold;
   margin: 20px 0px 10px 0px;
 }
-.table-body .row:nth-child(odd) .table-cell {
+.table-body .table-row {
+  padding: 5px 0px;
+}
+.table-body .table-row:nth-child(odd) {
   background: white;
 }
-.table-body .row:nth-child(even) .table-cell {
+.table-body .table-row:nth-child(even) {
   background: #eee;
 }
 hr {

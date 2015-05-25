@@ -1,29 +1,11 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Upcoming Events</h1>
 
-<div class="row table-header">
-  <div class="col-md-3 col-sm-4">Event</div>
-  <div class="col-md-3 col-sm-4">Date/Time</div>
-</div>
-<div class="table-body">
-  <% @upcoming_events.each do |event| %>
-  <div class="row">
-    <div class="table-cell col-md-3 col-sm-4">
-      <%= link_to "Games at #{event.place}", event %>
-    </div>
-    <div class="table-cell col-md-3 col-sm-4">
-    <p><%= Utility.from_active_record(event.start_time) %></p>
-    </div>
-    <div class="table-cell col-md-3 col-sm-4">
-      <%= link_to 'Edit', events_update_form_path(event) %>
-      &nbsp;
-      <%= link_to 'Delete', event, method: :delete, data: { confirm: 'Are you sure?' } %>
-    </div>
-  </div>
-  <% end %>
-</tbody>
+<%= render 'list_events', events: @upcoming_events, type: :upcoming%>
 
 <br>
+<br>
+<br>
 
-<%= link_to 'New Event', :events_new_form %>
+<h1>Past Events</h1>
+
+<%= render 'list_events', events: @past_events, type: :past%>

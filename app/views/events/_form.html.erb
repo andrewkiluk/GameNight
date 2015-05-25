@@ -1,0 +1,77 @@
+<% if context == :new %>
+<form id="event_form" class="event_form" method="POST" action="/events">
+<% elsif context == :update %>
+<form id="event_form" class="event_form" method="POST" action="/events/<%= @event.id %>">
+<% end %>
+  <div class="row">
+    <%= label_tag :datetime, "Date and Time: " %>
+    <div class='input-group date' id='datetime-picker'>
+      <input type='text' name="datetime" id="time" class="form-control"
+        value="<%= Utility.from_active_record(@event.start_time)%>"/>
+      <span class="input-group-addon">
+        <span class="glyphicon glyphicon-calendar"></span>
+      </span>
+    </div>
+  </div>
+
+  <div class="row">
+  <%= label_tag :place, "Place: " %>
+  <%= text_field_tag :place, @event.place, class: "form-control" %>
+  </div>
+
+  <div class="row">
+  <%= label_tag :description, "Description: " %>
+  <%= text_area_tag :description, @event.description, class: "form-control event-description" %>
+  </div>
+
+  <div class="row">
+  <h2>Select Friends to Invite:</h2>
+  <%= render partial: "friends/list_friends", locals: {users: @friends, page: :event, event: @event} %>
+  <input name="friend_invite_ids" type="hidden" />
+  </div>
+
+  <div class="row">
+  <% if context == :new %>
+  <%= link_to 'Cancel', events_path, class: "btn btn-default" %>
+  <button class="btn btn-primary" id="submit_button" type="submit" >Create Event</button>
+  <% elsif context == :update %>
+  <%= link_to 'Cancel', @event, class: "btn btn-default" %>
+  <button class="btn btn-primary" id="submit_button" type="submit" >Update Event</button>
+  <% end %>
+  </div>
+
+
+  <%= hidden_field_tag :redirect_path, flash[:redirect_path]%>
+  <%= token_tag form_authenticity_token %>
+</form>
+
+<script type="text/javascript">
+$(function () {
+  $('#datetime-picker').datetimepicker();
+
+  var default_date = $('#datetime-picker').find('input[name="datetime"]').val();
+  $('#datetime-picker').data("DateTimePicker").defaultDate(default_date);
+
+  $('.friend-well').click(function(){
+    $(this).toggleClass('selected')
+  });
+
+  $('#submit_button').click(function(e){
+
+    e.preventDefault();
+
+    /* Populate the list of selected friend IDs */
+    $('input[name="friend_invite_ids"]').val('');
+    $('.friend-well.selected').each(function(){
+      var id = $(this).find('.friend_id').val();
+      var friend_id_list = $('input[name="friend_invite_ids"]').val();
+      $('input[name="friend_invite_ids"]').val(friend_id_list + id + ',');
+    });
+    var friend_id_list = $('input[name="friend_invite_ids"]').val();
+    $('input[name="friend_invite_ids"]').val(friend_id_list.substring(0, friend_id_list.length - 1));
+
+    $('#event_form').submit();
+  });
+
+});
+</script>
